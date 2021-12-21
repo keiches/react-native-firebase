@@ -70,6 +70,12 @@ const namespace = 'analytics';
 
 const nativeModuleName = 'RNFBAnalyticsModule';
 
+const Korean = /^[a-zA-Z0-9_]+$/;
+
+function isKorean(value) {
+  return Korean.test(value);
+}
+
 class FirebaseAnalyticsModule extends FirebaseModule {
   logEvent(name, params = {}) {
     if (!isString(name)) {
@@ -88,7 +94,7 @@ class FirebaseAnalyticsModule extends FirebaseModule {
     }
 
     // name format validation
-    if (!isAlphaNumericUnderscore(name) || name.length > 40) {
+    if ((!isAlphaNumericUnderscore(name) && !isKorean(name)) ||  name.length > 40) {
       throw new Error(
         `firebase.analytics().logEvent(*) 'name' invalid event name '${name}'. Names should contain 1 to 40 alphanumeric characters or underscores.`,
       );
